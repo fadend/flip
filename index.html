@@ -1,0 +1,100 @@
+<html>
+  <head>
+    <!-- Help IE with utf8; thank you, Glards! -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta
+      name="description"
+      content="Turn text upside down. Rotate letters 180 degrees with Unicode."
+    />
+    <title>Flip</title>
+    <style type="text/css">
+      textarea {
+        font-family: "Arial Unicode MS", Batang;
+      }
+      h1 {
+        margin-bottom: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Flip</h1>
+    Original:
+    <br />
+    <textarea rows="5" cols="80" id="original"></textarea>
+    <br />
+    Flipped:
+    <br />
+    <textarea rows="5" cols="80" id="flipped"></textarea>
+    <script>
+      const FLIP_TABLE = {
+        a: "\u0250",
+        b: "q",
+        c: "\u0254", //open o -- from pne
+        d: "p",
+        e: "\u01DD",
+        f: "\u025F", //from pne
+        g: "\u0183",
+        h: "\u0265",
+        i: "\u0131", //from pne
+        j: "\u027E",
+        k: "\u029E",
+        //l : '\u0283',
+        m: "\u026F",
+        n: "u",
+        r: "\u0279",
+        t: "\u0287",
+        v: "\u028C",
+        w: "\u028D",
+        y: "\u028E",
+        ".": "\u02D9",
+        "[": "]",
+        "(": ")",
+        "{": "}",
+        "?": "\u00BF", //from pne
+        "!": "\u00A1",
+        "\'": ",",
+        "<": ">",
+        _: "\u203E",
+        "\u203F": "\u2040",
+        "\u2045": "\u2046",
+        "\u2234": "\u2235",
+        "\r": "\n", //thank you, Yeeliberto
+      };
+
+      for (let c in FLIP_TABLE) {
+        FLIP_TABLE[FLIP_TABLE[c]] = c;
+      }
+
+      function flipString(aString) {
+        const last = aString.length - 1;
+        //Thanks to Brook Monroe for the suggestion to use Array.join
+        const result = [];
+        for (let i = last; i >= 0; --i) {
+          let c = aString[i];
+          let r = FLIP_TABLE[c];
+          result[last - i] = r ? r : c;
+        }
+        return result.join("");
+      }
+
+      const originalArea = document.getElementById("original");
+      const flippedArea = document.getElementById("flipped");
+      originalArea.addEventListener("keyup", () => {
+        flippedArea.value = flipString(originalArea.value.toLowerCase());
+      });
+    </script>
+    <p style="width: 300px">
+      <small
+        >I got the idea to do this from
+        <a href="http://pne.livejournal.com/398399.html">a post by pne</a>.
+        Thank you to Brook Monroe, Tim McCormack, Glards, and Yeeliberto amongst
+        others for further suggestions. <br /><br />
+        This work is licensed under a
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/"
+          >Creative Commons Attribution-Share Alike 3.0 Unported License</a
+        >. <br /><br />
+        <a href="http://www.revfad.com/">Reverse Fad Productions</a>
+      </small>
+    </p>
+  </body>
+</html>
